@@ -1,16 +1,14 @@
 import React from 'react';
 import Navigation from './Navigation';
-import SearchForm from './SearchForm';
+import Search from './Search';
 
-const Header = (props) =>{
+const Header = () => {
       return (
          <div>
-            <SearchForm handleSearchInput={ props.handleSearchInput}/>
+            <Search />
             <Navigation />
          </div>
       );
-
-
-};
+}
 
 export default Header;
