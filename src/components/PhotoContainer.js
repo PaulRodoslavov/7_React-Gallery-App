@@ -5,10 +5,14 @@ import SetPhoto from './SetPhoto';
 
 class PhotoContainer extends Component {
 
+   // Initial state
+
    state = {
-      lading: false
+      lading: false,
+      pictures: []
    }
 
+   // Use componentDidMount method to get API
    componentDidMount(query = this.props.tag) {
       fetch(`https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=${ApiKey}&tags=${query}&per_page=24&format=json&nojsoncallback=1`)
       .then(res => res.json())
@@ -21,12 +25,22 @@ class PhotoContainer extends Component {
       .catch( error => {
          console.log('Error fetching and parsing data', error);
       })
-   }
 
+   }
+      // Render UI depending on condition
+      
    render () {
       if(!this.state.loading) {
          return (
             <h2>Loading...</h2>
+         )
+      }
+      if(this.state.pictures.length === 0) {
+         return (
+            <div>
+               <h3>No Results Found</h3>
+               <p>Your search did not return any results. Please try again.</p>
+            </div>
          )
       }
       return (
@@ -35,6 +49,7 @@ class PhotoContainer extends Component {
            <SetPhoto data={this.state.pictures}/>
          </div>
       );
+
    }
 }
 

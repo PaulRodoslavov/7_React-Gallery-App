@@ -3,8 +3,10 @@ import { withRouter } from 'react-router-dom'
 
 class Search extends Component {
 
+   // Use function to create url depending on search word
    handlesubmit = (el) => {
       el.preventDefault();
+         // get word and push in url
       this.props.history.push(this.search.value)
    }
 
@@ -23,4 +25,5 @@ class Search extends Component {
    }
 }
 
+   // use withRouter to get acces to history object
 export default withRouter(Search);

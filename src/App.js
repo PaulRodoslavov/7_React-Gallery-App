@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
+// App components
 import Header from './components/Header'
 import NotFound from './components/NotFound'
 import PhotoContainer from './components/PhotoContainer'
