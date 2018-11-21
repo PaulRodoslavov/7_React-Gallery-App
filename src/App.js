@@ -12,11 +12,12 @@ class App extends Component {
   render() {
 
     return (
-      <BrowserRouter>
+      <BrowserRouter  forceRefresh={true}>
          <div className="container">
          <Route path="/"component={ Header }/>
             <Switch>
                <Route exact path ="/search/:tag" render={ props => <PhotoContainer tag={props.match.params.tag}/>}/>
+               <Route exact path ="/" render={ props => <PhotoContainer tag={'odessa'}/>}/>
                <Route component={ NotFound }/>
             </Switch>
 
