@@ -2,11 +2,11 @@ import React from 'react';
 import Navigation from './Navigation';
 import Search from './Search';
 
-const Header = () => {
+const Header = (props) => {
       return (
          <div>
-            <Search />
-            <Navigation />
+            <Search handleSearch={props.handleSearch}/>
+            <Navigation handleCLick={props.handleCLick}/>
          </div>
       );
 }

@@ -5,6 +5,7 @@ class Search extends Component {
 
    // Use function to create url depending on search word
    handlesubmit = (el) => {
+      this.props.handleSearch(this.search.value);
       el.preventDefault();
          // get word and push in url
       this.props.history.push(this.search.value)
