@@ -22,6 +22,8 @@ class App extends Component {
 
    // Use componentDidMount method to get API
    componentDidMount() {
+      this.handleSearch('odessa');
+
       fetch(`https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=${ApiKey}&tags=${'cats'}&per_page=24&format=json&nojsoncallback=1`)
       .then(this.checkStatus)
       .then(data => this.setState({ picturesCats: data.photos.photo, loading: true }))
@@ -72,16 +74,17 @@ handleSearch = (el) => {
          <div className="container">
          <Route path="/" render={ () => <Header handleSearch={this.handleSearch}/> } />
             <Switch>
-               <Route exact path ="/" render={ props => <PhotoContainer data={this.state.picturesCats} loading={this.state.loading}/>} />
-               <Route path ="/search/cats" render={ props => <PhotoContainer data={this.state.picturesCats} loading={this.state.loading}/>} />
-               <Route path ="/search/dogs" render={ props => <PhotoContainer data={this.state.picturesDogs} loading={this.state.loading}/>} />
-               <Route path ="/search/computers" render={ props => <PhotoContainer data={this.state.picturesComputers} loading={this.state.loading}/>} />
-               <Route path ="/search/:tag" render={ props => <PhotoContainer data={this.state.picturesSearch} loading={this.state.loading} tag={props.match.params.tag}/>} />
+               <Route exact path ="/" render={ props => <PhotoContainer data={this.state.picturesSearch} loading={this.state.loading}/>} />
+               <Route path ="/cats" render={ props => <PhotoContainer data={this.state.picturesCats} loading={this.state.loading}/>} />
+               <Route path ="/dogs" render={ props => <PhotoContainer data={this.state.picturesDogs} loading={this.state.loading}/>} />
+               <Route path ="/computers" render={ props => <PhotoContainer data={this.state.picturesComputers} loading={this.state.loading}/>} />
+               <Route path ="/search/:tag" render={ props => <PhotoContainer data={this.state.picturesSearch} loading={this.state.loading}/>} />
                <Route component={ NotFound }/>
             </Switch>
 
          </div>
       </BrowserRouter>
+
     )
   }
 }

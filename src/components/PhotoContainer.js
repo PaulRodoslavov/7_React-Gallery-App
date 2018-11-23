@@ -1,14 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 import SetPhoto from './SetPhoto';
 
 
 const PhotoContainer = props => {
-
-
-
       // Render UI depending on condition
-
 
       if(!props.loading) {
          return (

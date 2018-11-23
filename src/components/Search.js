@@ -8,7 +8,8 @@ class Search extends Component {
       this.props.handleSearch(this.search.value);
       el.preventDefault();
          // get word and push in url
-      this.props.history.push(this.search.value)
+      this.props.history.push('/search/' + this.search.value)
+      this.search.value = '';
    }
 
    render () {
