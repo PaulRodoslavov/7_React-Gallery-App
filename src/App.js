@@ -11,10 +11,10 @@ class App extends Component {
 
    // Initial state
    state = {
-      lading: false,
-      picturesCats: '',
-      picturesDogs: '',
-      picturesComputers: '',
+      isLoading: false,
+      cats: '',
+      dogs: '',
+      computers: '',
       picturesSearch: '',
       searchTag:''
 
@@ -23,48 +23,29 @@ class App extends Component {
    // Use componentDidMount method to get API
    componentDidMount() {
       this.handleSearch('odessa');
-
-      fetch(`https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=${ApiKey}&tags=${'cats'}&per_page=24&format=json&nojsoncallback=1`)
-      .then(this.checkStatus)
-      .then(data => this.setState({ picturesCats: data.photos.photo, loading: true }))
-      .catch( error => {
-         console.log('Error fetching and parsing data', error);
-      })
-
-      fetch(`https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=${ApiKey}&tags=${'dogs'}&per_page=24&format=json&nojsoncallback=1`)
-      .then(this.checkStatus)
-      .then(data => this.setState({ picturesDogs: data.photos.photo, loading: true }))
-      .catch( error => {
-         console.log('Error fetching and parsing data', error);
-      })
-
-      fetch(`https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=${ApiKey}&tags=${'computers'}&per_page=24&format=json&nojsoncallback=1`)
-      .then(this.checkStatus)
-      .then(data => this.setState({ picturesComputers: data.photos.photo, loading: true }))
-      .catch( error => {
-         console.log('Error fetching and parsing data', error);
-      })
-
-
-
+      this.getPhotos ('cats');
+      this.getPhotos ('dogs');
+      this.getPhotos ('computers');
    }
 
-   checkStatus(response) {
-      if (response.ok) {
-       return response.json();
-     } else {
-       throw new Error('Something went wrong ...');
-     }
+   getPhotos (tag, picturesSearch) {
+      fetch(`https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=${ApiKey}&tags=${tag}&per_page=24&format=json&nojsoncallback=1`)
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error('Something went wrong ...');
+        }
+      })
+      .then(data => this.setState({ [tag]: data.photos.photo, isLoading: false, picturesSearch: data.photos.photo }))
+      .catch( error => {
+         console.log('Error fetching and parsing data', error);
+      })
    }
 
 handleSearch = (el) => {
-   this.setState({ loading: false })
-   fetch(`https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=${ApiKey}&tags=${el}&per_page=24&format=json&nojsoncallback=1`)
-   .then(this.checkStatus)
-   .then(data => this.setState({ picturesSearch: data.photos.photo, loading: true }))
-   .catch( error => {
-      console.log('Error fetching and parsing data', error);
-   })
+   this.setState({ isLoading: true })
+   this.getPhotos (el);
 }
 
 
@@ -74,11 +55,11 @@ handleSearch = (el) => {
          <div className="container">
          <Route path="/" render={ () => <Header handleSearch={this.handleSearch}/> } />
             <Switch>
-               <Route exact path ="/" render={ props => <PhotoContainer data={this.state.picturesSearch} loading={this.state.loading}/>} />
-               <Route path ="/cats" render={ props => <PhotoContainer data={this.state.picturesCats} loading={this.state.loading}/>} />
-               <Route path ="/dogs" render={ props => <PhotoContainer data={this.state.picturesDogs} loading={this.state.loading}/>} />
-               <Route path ="/computers" render={ props => <PhotoContainer data={this.state.picturesComputers} loading={this.state.loading}/>} />
-               <Route path ="/search/:tag" render={ props => <PhotoContainer data={this.state.picturesSearch} loading={this.state.loading}/>} />
+               <Route exact path ="/" render={ props => <PhotoContainer data={this.state.picturesSearch} isLoading={this.state.isLoading}/>} />
+               <Route path ="/cats" render={ props => <PhotoContainer data={this.state.cats} isLoading={this.state.isLoading}/>} />
+               <Route path ="/dogs" render={ props => <PhotoContainer data={this.state.dogs} isLoading={this.state.isLoading}/>} />
+               <Route path ="/computers" render={ props => <PhotoContainer data={this.state.computers} isLoading={this.state.isLoading}/>} />
+               <Route path ="/search/:tag" render={ props => <PhotoContainer data={this.state.picturesSearch} isLoading={this.state.isLoading}/>} />
                <Route component={ NotFound }/>
             </Switch>
 
